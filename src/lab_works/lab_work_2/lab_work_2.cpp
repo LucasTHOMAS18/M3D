@@ -17,7 +17,7 @@ namespace M3D_ISICG
 
 	bool LabWork2::init()
 	{
-		std::cout << "Initializing lab work 1..." << std::endl;
+		std::cout << "Initializing lab work 2..." << std::endl;
 		// Set the color used by glClear to clear the color buffer (in render()).
 		glClearColor( _bgColor.x, _bgColor.y, _bgColor.z, _bgColor.w );
 
@@ -76,7 +76,7 @@ namespace M3D_ISICG
 		glDeleteShader( fragmentShader );
 
 		// Objects data.
-		vertices = { Vec2f( -0.5, 0.5 ),  Vec2f( 0.5, 0.5 ),  Vec2f( 0.5, -0.5 ), Vec2f( -0.5, 0.5 ) };
+		vertices = { Vec2f( -0.5, 0.5 ),  Vec2f( 0.5, 0.5 ),  Vec2f( 0.5, -0.5 ), Vec2f( -0.5, -0.5 ) };
 		indices	 = { 0, 1, 2, 0, 3, 2 };
 
 		// Initialize and load the VBO and VAO.
@@ -116,7 +116,7 @@ namespace M3D_ISICG
 
 	void LabWork2::displayUI()
 	{
-		ImGui::Begin( "Settings lab work 1" );
+		ImGui::Begin( "Settings lab work 2" );
 		ImGui::Text( "No setting available!" );
 		ImGui::End();
 	}
