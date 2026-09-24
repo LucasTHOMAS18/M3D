@@ -37,11 +37,16 @@ namespace M3D_ISICG
 
 		// ================ Settings.
 		Vec4f _bgColor = Vec4f( 0.8f, 0.8f, 0.8f, 1.f ); // Background color
+		float brightness = 1.0;
+		GLint uBrightnessLocation;
+
 		// ================
 
 		static const std::string _shaderFolder;
 
+		// ================ Animation;
 		GLint uTranslationXLocation;
+
 		float _time =  0;
 
 	};

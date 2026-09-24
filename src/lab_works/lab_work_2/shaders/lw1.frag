@@ -3,6 +3,8 @@
 in vec4 color;
 out vec4 aColor;
 
+uniform float uBrightness;
+
 void main() {	
-	aColor = color;
+	aColor = vec4(color.rgb * uBrightness, color.a);
 }

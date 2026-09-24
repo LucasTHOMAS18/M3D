@@ -2,6 +2,7 @@
 #include "lab_work_2.hpp"
 #include "utils/read_file.hpp"
 #include <iostream>
+#include "glm/gtc/type_ptr.hpp"
 
 namespace M3D_ISICG
 {
@@ -112,6 +113,8 @@ namespace M3D_ISICG
 
 		// Control variable
 		uTranslationXLocation = glGetUniformLocation( _program, "uTranslationX" );
+		uBrightnessLocation = glGetUniformLocation( _program, "uBrightness" );
+		glProgramUniform1f( _program, uBrightnessLocation, brightness );
 
 		glUseProgram( _program );
 
@@ -138,7 +141,14 @@ namespace M3D_ISICG
 	void LabWork2::displayUI()
 	{
 		ImGui::Begin( "Settings lab work 2" );
-		ImGui::Text( "No setting available!" );
+		
+		if (ImGui::SliderFloat("Luminosité", &brightness, 0.f, 1.f)) {
+			glProgramUniform1f( _program, uBrightnessLocation, brightness );
+		}
+
+		if (ImGui::ColorEdit3("Couleur de fond", glm::value_ptr(_bgColor))) {
+			glClearColor( _bgColor.x, _bgColor.y, _bgColor.z, _bgColor.w );
+		}
 		ImGui::End();
 	}
 
