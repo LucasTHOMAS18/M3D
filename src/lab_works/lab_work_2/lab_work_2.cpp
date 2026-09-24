@@ -77,7 +77,7 @@ namespace M3D_ISICG
 
 		// Objects data.
 		vertices = { Vec2f( -0.5, 0.5 ),  Vec2f( 0.5, 0.5 ),  Vec2f( 0.5, -0.5 ), Vec2f( -0.5, -0.5 ) };
-		indices	 = { 0, 1, 2, 0, 3, 2 };
+		indices	 = { 0, 1, 2, 0, 2, 3 };
 
 		// Initialize and load the VBO and VAO.
 		glCreateBuffers( 1, &VBO );
@@ -88,12 +88,27 @@ namespace M3D_ISICG
 		glVertexArrayAttribFormat( VAO, 0, 2, GL_FLOAT, GL_FALSE, 0 );
 		glVertexArrayVertexBuffer( VAO, 0, VBO, 0, sizeof( Vec2f ) );
 		glVertexArrayAttribBinding( VAO, 0, 0 );
-
+		
 		// Initialize EBO
 		GLuint EBO;
 		glCreateBuffers( 1, &EBO );
 		glNamedBufferData( EBO, indices.size() * sizeof( GLuint ), indices.data(), GL_STATIC_DRAW );
 		glVertexArrayElementBuffer( VAO, EBO );
+
+		// Colors
+		colors = { Vec4f( 1.f, 0.f, 0.f, 1.f ),
+				   Vec4f( 0.f, 1.f, 0.f, 1.f ),
+				   Vec4f( 0.f, 0.f, 1.f, 1.f ),
+				   Vec4f( 1.f, 0.f, 1.f, 1.f ) };
+
+		GLuint ColorsVBO;
+		glCreateBuffers( 1, &ColorsVBO );
+		glNamedBufferData( ColorsVBO, colors.size() * sizeof( Vec4f ), colors.data(), GL_STATIC_DRAW );
+
+		glEnableVertexArrayAttrib( VAO, 1 );
+		glVertexArrayAttribFormat( VAO, 1, 4, GL_FLOAT, GL_FALSE, 1 );
+		glVertexArrayVertexBuffer( VAO, 1, ColorsVBO, 0, sizeof( Vec4f ) );
+		glVertexArrayAttribBinding( VAO, 1, 1 );
 
 		glUseProgram( _program );
 
@@ -103,7 +118,7 @@ namespace M3D_ISICG
 	}
 
 	void LabWork2::animate( const float p_deltaTime ) {}
-
+	
 	void LabWork2::render()
 	{
 		glClear( GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT );

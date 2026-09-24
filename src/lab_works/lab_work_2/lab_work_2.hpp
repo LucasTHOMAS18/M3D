@@ -25,6 +25,7 @@ namespace M3D_ISICG
 		// ================ Scene data.
 		std::vector<Vec2f> vertices;
 		std::vector<GLuint> indices;
+		std::vector<Vec4f>	colors;
 
 		// ================
 
