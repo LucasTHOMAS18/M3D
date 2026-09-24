@@ -24,7 +24,7 @@ namespace M3D_ISICG
 	  private:
 		// ================ Scene data.
 		std::vector<Vec2f> vertices;
-		std::vector<Vec2i> indexes;
+		std::vector<GLuint> indices;
 
 		// ================
 

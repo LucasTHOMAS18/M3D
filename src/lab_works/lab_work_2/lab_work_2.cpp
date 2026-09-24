@@ -77,6 +77,7 @@ namespace M3D_ISICG
 
 		// Objects data.
 		vertices = { Vec2f( -0.5, 0.5 ),  Vec2f( 0.5, 0.5 ),  Vec2f( 0.5, -0.5 ), Vec2f( -0.5, 0.5 ) };
+		indices	 = { 0, 1, 2, 0, 3, 2 };
 
 		// Initialize and load the VBO and VAO.
 		glCreateBuffers( 1, &VBO );
@@ -87,6 +88,12 @@ namespace M3D_ISICG
 		glVertexArrayAttribFormat( VAO, 0, 2, GL_FLOAT, GL_FALSE, 0 );
 		glVertexArrayVertexBuffer( VAO, 0, VBO, 0, sizeof( Vec2f ) );
 		glVertexArrayAttribBinding( VAO, 0, 0 );
+
+		// Initialize EBO
+		GLuint EBO;
+		glCreateBuffers( 1, &EBO );
+		glNamedBufferData( EBO, indices.size() * sizeof( GLuint ), indices.data(), GL_STATIC_DRAW );
+		glVertexArrayElementBuffer( VAO, EBO );
 
 		glUseProgram( _program );
 
@@ -101,7 +108,7 @@ namespace M3D_ISICG
 	{
 		glClear( GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT );
 		glBindVertexArray( VAO );
-		glDrawArrays( GL_TRIANGLES, 0, vertices.size() );
+		glDrawElements( GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0 );
 		glBindVertexArray( 0 );
 	}
 
