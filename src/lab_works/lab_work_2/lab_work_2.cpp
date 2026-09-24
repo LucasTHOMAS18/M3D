@@ -110,6 +110,9 @@ namespace M3D_ISICG
 		glVertexArrayVertexBuffer( VAO, 1, ColorsVBO, 0, sizeof( Vec4f ) );
 		glVertexArrayAttribBinding( VAO, 1, 1 );
 
+		// Control variable
+		uTranslationXLocation = glGetUniformLocation( _program, "uTranslationX" );
+
 		glUseProgram( _program );
 
 		std::cout << "Done!" << std::endl;
@@ -117,7 +120,10 @@ namespace M3D_ISICG
 		return true;
 	}
 
-	void LabWork2::animate( const float p_deltaTime ) {}
+	void LabWork2::animate( const float p_deltaTime ) {		
+		_time += p_deltaTime;
+		glProgramUniform1f( _program, uTranslationXLocation, glm::sin(_time) );
+	}
 	
 	void LabWork2::render()
 	{

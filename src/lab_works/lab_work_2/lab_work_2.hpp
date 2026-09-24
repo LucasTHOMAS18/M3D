@@ -40,6 +40,10 @@ namespace M3D_ISICG
 		// ================
 
 		static const std::string _shaderFolder;
+
+		GLint uTranslationXLocation;
+		float _time =  0;
+
 	};
 } // namespace M3D_ISICG
 
