@@ -1,5 +1,4 @@
-﻿  lab_work_3.cpp
-C:\Users\lucas\Documents\Master\M3D\src\lab_works\lab_work_3\lab_work_3.cpp(25,58): warning C4267: 'argument' : conversion de 'size_t' en 'GLsizei', perte possible de données
+﻿  camera.cpp
   M3D_ISICG.vcxproj -> C:\Users\lucas\Documents\Master\M3D\x64\Debug\M3D_ISICG.exe
   0 fichier(s) copiÚ(s)
   0 fichier(s) copiÚ(s)

@@ -78,13 +78,10 @@ namespace M3D_ISICG
 		std::cout << "========================" << std::endl;
 	}
 
-	void Camera::_computeViewMatrix()
-	{ 
-	}
+	void Camera::_computeViewMatrix() { _viewMatrix = glm::lookAt( _position, _position - _invDirection, _up ); }
 
 	void Camera::_computeProjectionMatrix()
-	{
-	}
+	{ _projectionMatrix = glm::perspective( glm::radians( _fovy ), _aspectRatio, _zNear, _zFar ); }
 
 	void Camera::_updateVectors()
 	{

@@ -21,10 +21,15 @@ namespace M3D_ISICG
 	}
 
 	void LabWork3::render() { glClear( GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT );
+		_updateProjectionMatrix();
+		_updateViewMatrix();
+		
+		glProgramUniformMatrix4fv( _program, _cubeTransformLocation, 1, false, glm::value_ptr( _cube.transform ) );
+		
 		glBindVertexArray( _cube.VAO );
 		glDrawElements( GL_TRIANGLES, _cube.indicesSommets.size(), GL_UNSIGNED_INT, 0 );
 		glBindVertexArray( 0 );
-		
+
 	}
 
 	bool LabWork3::init() {
@@ -94,15 +99,65 @@ namespace M3D_ISICG
 		_initBuffers();
 
 		std::cout << "Done!" << std::endl;
+
+		// Camera
+		_initCamera();
+
 		return true; 
 	}
 
-	void LabWork3::handleEvents( const SDL_Event & p_event ) {}
-
 	void LabWork3::displayUI() {
-		ImGui::Begin( "Settings lab work 2" );
-		ImGui::Text( "No setting available!" );
+		ImGui::Begin( "Settings lab work 3" );
+		
+		if ( ImGui::SliderFloat( "FOV", &_fovy, 0.f, 180.f ) )
+		{
+			_camera.setFovy( _fovy );
+		}
+
 		ImGui::End();
+	}
+
+	void LabWork3::handleEvents( const SDL_Event & p_event )
+	{
+		if ( p_event.type == SDL_KEYDOWN )
+		{
+			switch ( p_event.key.keysym.scancode )
+			{
+			case SDL_SCANCODE_W: // Front
+				_camera.moveFront( _cameraSpeed );
+				_updateViewMatrix();
+				break;
+			case SDL_SCANCODE_S: // Back
+				_camera.moveFront( -_cameraSpeed );
+				_updateViewMatrix();
+				break;
+			case SDL_SCANCODE_A: // Left
+				_camera.moveRight( -_cameraSpeed );
+				_updateViewMatrix();
+				break;
+			case SDL_SCANCODE_D: // Right
+				_camera.moveRight( _cameraSpeed );
+				_updateViewMatrix();
+				break;
+			case SDL_SCANCODE_R: // Up
+				_camera.moveUp( _cameraSpeed );
+				_updateViewMatrix();
+				break;
+			case SDL_SCANCODE_F: // Bottom
+				_camera.moveUp( -_cameraSpeed );
+				_updateViewMatrix();
+				break;
+			default: break;
+			}
+		}
+
+		// Rotate when left click + motion (if not on Imgui widget).
+		if ( p_event.type == SDL_MOUSEMOTION && p_event.motion.state & SDL_BUTTON_LMASK
+			 && !ImGui::GetIO().WantCaptureMouse )
+		{
+			_camera.rotate( p_event.motion.xrel * _cameraSensitivity, p_event.motion.yrel * _cameraSensitivity );
+			_updateViewMatrix();
+		}
 	}
 
 	void LabWork3::animate( const float p_deltaTime ) { 
@@ -135,6 +190,16 @@ namespace M3D_ISICG
 		glVertexArrayAttribBinding( _cube.VAO, 1, 1 );
 	}
 
+	void LabWork3::_initCamera() {
+		_camera					  = Camera();
+		_camera.setPosition( Vec3f( 0, 1, 3 ) );
+		_camera.setScreenSize(getWindowWidth(), getWindowHeight());
+		_camera.setFovy( _fovy );
+
+		_viewMatrixLocation		  = glGetUniformLocation( _program, "uViewMatrix" );
+		_projectionMatrixLocation = glGetUniformLocation( _program, "uProjectionMatrix" );
+	}
+
 	LabWork3::Mesh LabWork3::createCube() {
 		Mesh cube = {};
 		cube.posSommets = { Vec3f( -.5, -.5, -.5 ), Vec3f( .5, -.5, -.5 ), Vec3f( -.5, -.5, .5 ), Vec3f( .5, -.5, .5 ),
@@ -154,8 +219,17 @@ namespace M3D_ISICG
 		};
 
 		cube.transform = glm::mat4(1.0f);
-		cube.transform = glm::scale( cube.transform, glm::vec3( 0.8f, -0.8f, 0.8f ) );
+		cube.transform = glm::scale( cube.transform, glm::vec3( 0.8f, 0.8f, 0.8f ) );
 
 		return cube;
 	}
+
+	void LabWork3::_updateViewMatrix() { 
+		glProgramUniformMatrix4fv( _program, _viewMatrixLocation, 1, false, glm::value_ptr(_camera.getViewMatrix()));
+	}
+
+	void LabWork3::_updateProjectionMatrix() { 
+		glProgramUniformMatrix4fv( _program, _projectionMatrixLocation, 1, false, glm::value_ptr( _camera.getProjectionMatrix() ) );
+	}
+
 } // namespace M3D_ISICG

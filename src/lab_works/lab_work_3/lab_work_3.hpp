@@ -5,6 +5,7 @@
 #include "common/base_lab_work.hpp"
 #include "define.hpp"
 #include <vector>
+#include "common/camera.hpp"
 
 namespace M3D_ISICG
 {
@@ -16,6 +17,7 @@ namespace M3D_ISICG
 
 		bool init() override;
 		void _initBuffers();
+		void _initCamera();
 
 		void animate( const float p_deltaTime ) override;
 		void render() override;
@@ -23,6 +25,8 @@ namespace M3D_ISICG
 		void handleEvents( const SDL_Event & p_event ) override;
 		void displayUI() override;
 
+		void _updateViewMatrix();
+		void _updateProjectionMatrix();
 
 		struct Mesh
 		{
@@ -49,6 +53,15 @@ namespace M3D_ISICG
 		Mesh createCube();
 		Mesh _cube;
 		GLuint _cubeTransformLocation;
+
+		GLuint _viewMatrixLocation;
+		GLuint _projectionMatrixLocation;
+
+		Camera _camera;
+		float  _fovy = 60.f;
+
+		float _cameraSpeed		 = 0.1f;
+		float _cameraSensitivity = 0.1f;
 	};
 } // namespace M3D_ISICG
 
