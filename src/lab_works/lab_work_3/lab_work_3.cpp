@@ -25,7 +25,6 @@ namespace M3D_ISICG
 		glDrawElements( GL_TRIANGLES, _cube.indicesSommets.size(), GL_UNSIGNED_INT, 0 );
 		glBindVertexArray( 0 );
 		
-		glProgramUniformMatrix4fv( _program, _cubeTransformLocation, 1, false, glm::value_ptr( _cube.transform ) );
 	}
 
 	bool LabWork3::init() {
