@@ -36,7 +36,7 @@ namespace M3D_ISICG
 		std::cout << "Initializing lab work 3..." << std::endl;
 
 		glClearColor( _bgColor.x, _bgColor.y, _bgColor.z, _bgColor.w );
-
+		glEnable( GL_DEPTH_TEST );
 
 		// Compile shaders.
 		const std::string vertexShaderStr	= readFile( _shaderFolder + "lw1.vert" );
