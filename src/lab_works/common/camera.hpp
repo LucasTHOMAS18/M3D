@@ -14,6 +14,7 @@ namespace M3D_ISICG
 
 		inline const Mat4f & getViewMatrix() const { return _viewMatrix; }
 		inline const Mat4f & getProjectionMatrix() const { return _projectionMatrix; }
+		inline const Mat4f & getMvpMatrix() const { return _mvpMatrix; }
 
 		void setPosition( const Vec3f & p_position );
 		void setLookAt( const Vec3f & p_lookAt );
@@ -31,6 +32,7 @@ namespace M3D_ISICG
 	  private:
 		void _computeViewMatrix();
 		void _computeProjectionMatrix();
+		void _computeMvpMatrix();
 		void _updateVectors();
 
 	  private:
@@ -51,6 +53,7 @@ namespace M3D_ISICG
 
 		Mat4f _viewMatrix		= MAT4F_ID;
 		Mat4f _projectionMatrix = MAT4F_ID;
+		Mat4f _mvpMatrix = MAT4F_ID;
 	};
 } // namespace M3D_ISICG
 

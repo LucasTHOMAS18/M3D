@@ -9,6 +9,7 @@ namespace M3D_ISICG
 	{
 		_computeViewMatrix();
 		_computeProjectionMatrix();
+		_computeMvpMatrix();
 	}
 
 	void Camera::setPosition( const Vec3f & p_position )
@@ -78,10 +79,17 @@ namespace M3D_ISICG
 		std::cout << "========================" << std::endl;
 	}
 
-	void Camera::_computeViewMatrix() { _viewMatrix = glm::lookAt( _position, _position - _invDirection, _up ); }
+	void Camera::_computeViewMatrix() { 
+		_viewMatrix = glm::lookAt( _position, _position - _invDirection, _up );
+		_computeMvpMatrix();
+	}
 
-	void Camera::_computeProjectionMatrix()
-	{ _projectionMatrix = glm::perspective( glm::radians( _fovy ), _aspectRatio, _zNear, _zFar ); }
+	void Camera::_computeProjectionMatrix() { 
+		_projectionMatrix = glm::perspective( glm::radians( _fovy ), _aspectRatio, _zNear, _zFar );
+		_computeMvpMatrix();
+	}
+
+	void Camera::_computeMvpMatrix() { _mvpMatrix = _projectionMatrix * _viewMatrix; }
 
 	void Camera::_updateVectors()
 	{
